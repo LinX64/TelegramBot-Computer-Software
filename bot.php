@@ -1,6 +1,6 @@
 <?php
 
-$botToken = "bottoken";
+$botToken = "botToken";
 $website = "https://api.telegram.org/bot" . $botToken;
 
 $update = file_get_contents('php://input');
@@ -16,7 +16,7 @@ switch ($message) {
     case "/about":
         sendMessage($chatId,
             "This bot has been created for : `Computer Software & IOS-Android - Question/Answers` And it will help the others to find what they were looking for.
-             ");
+You can invite your friends via : http://telegram.me/joinchat/Cd6oNT4fdIk1DqI5Hi3mXA");
         break;
     case "/contact":
         sendMessage($chatId,
@@ -24,8 +24,7 @@ switch ($message) {
         break;
     case "/github":
         sendMessage($chatId,
-            "Here is the Github link of this Bot, if you'd like to change or making
-this Bot Better than before.
+            "Here is the Github link of this Bot, if you'd like to change or making this Bot Better than before.
 
              Github : github.com/LinX64/TelegramBot-Computer-Software");
         break;
