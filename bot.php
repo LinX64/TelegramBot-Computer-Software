@@ -3,45 +3,35 @@
 $botToken = 'botToken';
 $website = 'https://api.telegram.org/bot' . $botToken;
 
-$update = file_get_contents( $website . '/getUpdates' );
+$update = file_get_contents( 'php://input' );
 $update = json_decode( $update, TRUE );
 
 $targetIndex = count( $update[ 'result' ] ) - 1;
 
-if ( $targetIndex >= 0 ) {
-
-	// we revived updates, good to go !!
-}
-else {
-
-	echo 'what the faz?! :))';
-	return false; // we didn't recive updates, stop script ...
-}
-
-$chatId = $update[ 'result' ][ $targetIndex ][ 'message' ][ 'chat' ][ 'id' ];
+$chatId = $update[ 'message' ][ 'chat' ][ 'id' ];
 
 $botMode = 'notSet';
 $command = 'notSet';
 $user_first_name = 'notSet';
 
-if ( isset( $update[ 'result' ][ $targetIndex ][ 'message' ][ 'text' ] )
-	&& $update[ 'result' ][ $targetIndex ][ 'message' ][ 'text' ] != '' ) {
+if ( isset( $update[ 'message' ][ 'text' ] )
+	&& $update[ 'message' ][ 'text' ] != '' ) {
 
 	$botMode = 'command';
-	$command = $update[ 'result' ][ $targetIndex ][ 'message' ][ 'text' ];
-	$user_first_name = $update[ 'result' ][ $targetIndex ][ 'message' ][ 'from' ][ 'first_name' ];
+	$command = $update[ 'message' ][ 'text' ];
+	$user_first_name = $update[ 'message' ][ 'from' ][ 'first_name' ];
 }
-elseif ( isset( $update[ 'result' ][ $targetIndex ][ 'message' ][ 'new_chat_participant' ][ 'first_name' ] )
-		&& $update[ 'result' ][ $targetIndex ][ 'message' ][ 'new_chat_participant' ][ 'first_name' ] != '' ) {
+elseif ( isset( $update[ 'message' ][ 'new_chat_participant' ][ 'first_name' ] )
+		&& $update[ 'message' ][ 'new_chat_participant' ][ 'first_name' ] != '' ) {
 	
 	$botMode = 'welcome';
-	$user_first_name = $update[ 'result' ][ $targetIndex ][ 'message' ][ 'new_chat_participant' ][ 'first_name' ];
+	$user_first_name = $update[ 'message' ][ 'new_chat_participant' ][ 'first_name' ];
 }
-elseif ( isset( $update[ 'result' ][ $targetIndex ][ 'message' ][ 'left_chat_participant' ][ 'first_name' ] )
-		&& $update[ 'result' ][ $targetIndex ][ 'message' ][ 'left_chat_participant' ][ 'first_name' ] != '' ) {
+elseif ( isset( $update[ 'message' ][ 'left_chat_participant' ][ 'first_name' ] )
+		&& $update[ 'message' ][ 'left_chat_participant' ][ 'first_name' ] != '' ) {
 	
 	$botMode = 'goodbye';
-	$user_first_name = $update[ 'result' ][ $targetIndex ][ 'message' ][ 'left_chat_participant' ][ 'first_name' ];
+	$user_first_name = $update[ 'message' ][ 'left_chat_participant' ][ 'first_name' ];
 }
 
 $message = 'notSet';
