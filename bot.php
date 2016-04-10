@@ -13,6 +13,7 @@ $chatId = $update[ 'message' ][ 'chat' ][ 'id' ];
 $botMode = 'notSet';
 $command = 'notSet';
 $user_first_name = 'notSet';
+$user_last_name = 'notSet';
 
 if ( isset( $update[ 'message' ][ 'text' ] )
 	&& $update[ 'message' ][ 'text' ] != '' ) {
@@ -26,12 +27,25 @@ elseif ( isset( $update[ 'message' ][ 'new_chat_participant' ][ 'first_name' ] )
 	
 	$botMode = 'welcome';
 	$user_first_name = $update[ 'message' ][ 'new_chat_participant' ][ 'first_name' ];
+
+	if ( isset( $update[ 'message' ][ 'new_chat_participant' ][ 'last_name' ] )
+		&& $update[ 'message' ][ 'new_chat_participant' ][ 'last_name' ] != '' ) {
+
+		$user_last_name = $update[ 'message' ][ 'new_chat_participant' ][ 'last_name' ];
+	}
+
 }
 elseif ( isset( $update[ 'message' ][ 'left_chat_participant' ][ 'first_name' ] )
 		&& $update[ 'message' ][ 'left_chat_participant' ][ 'first_name' ] != '' ) {
 	
 	$botMode = 'goodbye';
 	$user_first_name = $update[ 'message' ][ 'left_chat_participant' ][ 'first_name' ];
+
+	if ( isset( $update[ 'message' ][ 'left_chat_participant' ][ 'last_name' ] )
+		&& $update[ 'message' ][ 'left_chat_participant' ][ 'last_name' ] != '' ) {
+
+		$user_last_name = $update[ 'message' ][ 'left_chat_participant' ][ 'last_name' ];
+	}
 }
 
 $message = 'notSet';
@@ -93,17 +107,37 @@ if ( $botMode == 'command' ) {
 }
 elseif ( $botMode == 'welcome' ) {
 	
-	$message = '
-		Welcome ' . $user_first_name . ' to our group !!
-		' . $group_rules . '
-	';
+	if ( $user_last_name == 'notSet' ) {
+
+		$message = '
+			Welcome " ' . $user_first_name . ' " to our group !!
+			' . $group_rules . '
+		';
+	}
+	else {
+
+		$message = '
+			Welcome " ' . $user_first_name . ' ' . $user_last_name ' " to our group !!
+			' . $group_rules . '
+		';
+	}
 }
 elseif ( $botMode == 'goodbye' ) {
 	
-	$message = '
-		Goodbye ' . $user_first_name . ' !!
-		Hope we see you again in our group :)
-	';
+	if ( $user_last_name == 'notSet' ) {
+
+		$message = '
+			Goodbye " ' . $user_first_name . ' " !!
+			Hope we see you again in our group :)
+		';
+	}
+	else {
+
+		$message = '
+			Goodbye " ' . $user_first_name . ' ' . $user_last_name ' " !!
+			Hope we see you again in our group :)
+		';
+	}
 }
 
 sendMessage( $message );
