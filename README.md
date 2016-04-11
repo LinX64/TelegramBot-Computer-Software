@@ -1,2 +1,7 @@
 # Computer Software & IOS-Android - Question/Answers TelegramBot
-Totaly redesigned the bot by me ( Saeed-Pooyanfar )
+This Bot has been redesigned by ( Saeed-Pooyanfar )
+
+**Changes :**
+
+- Added the *left* and *Welcome* message when a user joins or lefts.
+- Redesgining the codes too.
