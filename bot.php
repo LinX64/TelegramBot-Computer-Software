@@ -6,8 +6,6 @@ $website = 'https://api.telegram.org/bot' . $botToken;
 $update = file_get_contents( 'php://input' );
 $update = json_decode( $update, TRUE );
 
-$targetIndex = count( $update[ 'result' ] ) - 1;
-
 $chatId = $update[ 'message' ][ 'chat' ][ 'id' ];
 
 $botMode = 'notSet';
@@ -33,7 +31,6 @@ elseif ( isset( $update[ 'message' ][ 'new_chat_participant' ][ 'first_name' ] )
 
 		$user_last_name = $update[ 'message' ][ 'new_chat_participant' ][ 'last_name' ];
 	}
-
 }
 elseif ( isset( $update[ 'message' ][ 'left_chat_participant' ][ 'first_name' ] )
 		&& $update[ 'message' ][ 'left_chat_participant' ][ 'first_name' ] != '' ) {
@@ -117,7 +114,7 @@ elseif ( $botMode == 'welcome' ) {
 	else {
 
 		$message = '
-			Welcome " ' . $user_first_name . ' ' . $user_last_name ' " to our group !!
+			Welcome " ' . $user_first_name . ' ' . $user_last_name . ' " to our group !!
 			' . $group_rules . '
 		';
 	}
@@ -134,18 +131,11 @@ elseif ( $botMode == 'goodbye' ) {
 	else {
 
 		$message = '
-			Goodbye " ' . $user_first_name . ' ' . $user_last_name ' " !!
+			Goodbye " ' . $user_first_name . ' ' . $user_last_name . ' " !!
 			Hope we see you again in our group :)
 		';
 	}
 }
 
-sendMessage( $message );
-
-function sendMessage( $message ) {
-
-	global $website, $chatId;
-
-	$url = $website . '/sendMessage?chat_id=' . $chatId . '&text=' . urlencode( $message );
-	file_get_contents( $url );
-}
+$url = $website . '/sendMessage?chat_id=' . $chatId . '&text=' . urlencode( $message );
+file_get_contents( $url );
