@@ -4,4 +4,4 @@ This Bot has been redesigned by ( Saeed-Pooyanfar )
 **Changes :**
 
 - Added the *left* and *Welcome* message when a user joins or lefts.
-- Redesgining the codes too.
+- Redesigning the codes too.
